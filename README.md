@@ -2,7 +2,7 @@
 
 ## Arduino IDE
 
-In the Arduino IDE for sonoff select from Tools Board Generic ESP8266 Module ( Tools Board Generic ESP8285 Module for CH4 version) and set the following options:
+In the Arduino IDE for sonoff select from Tools Board Generic ESP8266 Module and set the following options:
 
 - Upload Using: Serial
 - Flash Mode: DOUT
