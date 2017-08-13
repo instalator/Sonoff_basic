@@ -17,6 +17,8 @@ PubSubClient client(espClient);
 #define REL     12
 #define BTN     0
 
+long previousMillis = 0;
+
 void setup_wifi() {
   delay(10);
   WiFi.mode(WIFI_STA);
@@ -51,11 +53,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
   if (strTopic == "myhome/Cupboard/relay"){
     if (strPayload == "true"){
         digitalWrite(REL, HIGH);
-        client.publish("myhome/Cupboard/relay", "true");
     } else if(strPayload == "false"){
         digitalWrite(REL, LOW);
-        client.publish("myhome/Cupboard/relay", "false");
     }
+    client.publish("myhome/Cupboard/relay", IntToBool(digitalRead(REL)));
   }
 }
 
@@ -82,4 +83,9 @@ void loop() {
     reconnect();
   }
   client.loop();
+  if(digitalRead(BTN)== LOW && (millis() - previousMillis > 2000)){
+    previousMillis = millis();
+    digitalWrite(REL, !digitalRead(REL));
+    client.publish("myhome/Cupboard/relay", IntToBool(digitalRead(REL)));
+  }
 }
